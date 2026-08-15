@@ -14,12 +14,12 @@ biggest reason first-time contributors give up.
 Cloudinary account, an Anthropic API key, or an email provider. Everything
 external has a local driver:
 
-| Service | Local default | What it does |
-|---|---|---|
-| Database | `npm run db:local` | Runs a real MongoDB on your machine |
-| File storage | `STORAGE_DRIVER=local` | Writes uploads to `.local-uploads/` |
-| Email | `EMAIL_DRIVER=console` | Prints the email (and reset links) to your terminal |
-| AI assistant | `AI_DRIVER=stub` | Deterministic canned replies and tool calls |
+| Service      | Local default          | What it does                                        |
+| ------------ | ---------------------- | --------------------------------------------------- |
+| Database     | `npm run db:local`     | Runs a real MongoDB on your machine                 |
+| File storage | `STORAGE_DRIVER=local` | Writes uploads to `.local-uploads/`                 |
+| Email        | `EMAIL_DRIVER=console` | Prints the email (and reset links) to your terminal |
+| AI assistant | `AI_DRIVER=stub`       | Deterministic canned replies and tool calls         |
 
 The real services are only used in deployed environments, where the maintainers
 hold the credentials. You never need an account to build your feature.
@@ -97,18 +97,25 @@ npm run seed
 npm run dev
 ```
 
-`npm run seed` **wipes the database it connects to** and loads one batch, six
-subjects, three faculty, forty students and five weeks of class sessions. It
-refuses to run against anything with `prod` in the connection string.
+`npm run seed` **wipes the database it connects to**, then loads a full batch:
+6 subjects, 3 faculty, 40 students, 48 class sessions (30 past, 18 upcoming),
+24 materials, 18 assignments, 221 graded submissions, 1,200 attendance records,
+announcements and notes. It refuses to run against anything with `prod` in the
+connection string.
+
+That data is the reason no team has to wait for another. Whatever you are
+building, there is already something realistic to build it against —
+`student04@college.edu` is deliberately below 75% attendance so low-attendance
+warnings and at-risk reports have someone to find.
 
 `npm run dev` starts all four apps at once:
 
-| App | URL |
-|---|---|
-| Student portal | <http://localhost:3000> |
-| Admin portal | <http://localhost:3001> |
-| Student API | <http://localhost:4000/api/health> |
-| Admin API | <http://localhost:4001/api/health> |
+| App            | URL                                |
+| -------------- | ---------------------------------- |
+| Student portal | <http://localhost:3000>            |
+| Admin portal   | <http://localhost:3001>            |
+| Student API    | <http://localhost:4000/api/health> |
+| Admin API      | <http://localhost:4001/api/health> |
 
 ## 5. Check it actually works
 
@@ -150,6 +157,14 @@ URL-encoding if it contains `@`, `:`, `/` or `%`.
 
 ## Next
 
-- [docs/architecture.md](architecture.md) — how the pieces fit together
-- [docs/teams.md](teams.md) — which folders your team owns
-- [CONTRIBUTING.md](../CONTRIBUTING.md) — the conventions, and which files are locked
+**Read [how-we-work.md](how-we-work.md) next** — it explains the thinking behind
+the repo and how a weekend actually runs. Most of the rules elsewhere stop
+looking arbitrary once you've read it.
+
+Then:
+
+- [first-contribution.md](first-contribution.md) — issue → branch → PR → merged
+- [teams.md](teams.md) — which folders your team owns
+- [recipes/build-a-feature.md](recipes/build-a-feature.md) — a full vertical worked through
+- [architecture.md](architecture.md) — how the pieces fit together, and why
+- [CONTRIBUTING.md](../CONTRIBUTING.md) — conventions and locked files

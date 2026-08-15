@@ -1,22 +1,38 @@
 # Contributing
 
-Welcome. For many of you this is a first open-source contribution, so this
-document is written to be read start to finish once, then referred back to.
+This is the **reference** — conventions, locked files, the git workflow. It is
+written to be read once and then referred back to.
 
-**Before anything else:** get the project running locally by following
-[docs/onboarding.md](docs/onboarding.md).
+If you're starting out, read these first instead:
+
+| Doc                                                                | What it gives you                                      |
+| ------------------------------------------------------------------ | ------------------------------------------------------ |
+| [docs/onboarding.md](docs/onboarding.md)                           | The project running locally, in ~15 minutes            |
+| [docs/how-we-work.md](docs/how-we-work.md)                         | **The thinking behind all of this** — read it properly |
+| [docs/first-contribution.md](docs/first-contribution.md)           | Issue → branch → PR → merged, step by step             |
+| [docs/recipes/build-a-feature.md](docs/recipes/build-a-feature.md) | A full vertical worked through                         |
+| [docs/code-review.md](docs/code-review.md)                         | How to review, and how to be reviewed                  |
 
 ---
 
 ## The one thing to understand
 
 Thirteen teams commit to this repo on the same weekends. Almost every rule below
-exists to answer one question: *how do 43 people work in one repository without
-spending Saturday resolving merge conflicts?*
+exists to answer one question: _how do 43 people work in one repository without
+spending Saturday resolving merge conflicts?_
 
 The answer is **vertical slices**. Your team owns a folder at every layer —
 model, API module, validation schema, frontend feature folder — and works inside
-those folders. See [docs/teams.md](docs/teams.md) for which ones are yours.
+those folders. See [docs/teams.md](docs/teams.md) for which ones are yours, and
+[docs/how-we-work.md](docs/how-we-work.md) for why it's built this way.
+
+Two rules follow from it, and they are the ones that actually keep you unblocked:
+
+- **Never call another team's HTTP endpoint.** Need their data? Import their
+  model and read it directly. Model files are shared; module folders are owned.
+- **Merge your Zod schema before writing implementation code.** It's the
+  contract that lets the frontend and backend halves of your team build at the
+  same time instead of one waiting for the other.
 
 ---
 
@@ -26,16 +42,16 @@ Some files are shared by everyone, so they cannot be edited casually. These are
 enforced by [`.github/CODEOWNERS`](.github/CODEOWNERS): a PR touching them needs
 a lead's review.
 
-| File | Owner | If you need a change |
-|---|---|---|
-| `package.json`, `package-lock.json` | Team 01 | Open a **dependency request** issue |
-| `turbo.json`, `.github/` | Team 01 | Issue for Team 01 |
-| `apps/api-*/src/app.ts` | Team 01 | You almost certainly do not — see below |
-| `apps/api-admin/src/app.ts` and `app.test.ts` | Team 03 + maintainer | Never weaken the role gate |
-| `packages/auth/**` | Team 03 + maintainer | Issue, then a reviewed PR |
-| `packages/models/src/db.ts` | Team 01 | Issue for Team 01 |
-| `packages/ui/**`, `theme.css` | Team 02 | Issue for Team 02 |
-| Root `layout.tsx`, dashboard `layout.tsx` | Team 02 | Issue for Team 02 |
+| File                                          | Owner                | If you need a change                    |
+| --------------------------------------------- | -------------------- | --------------------------------------- |
+| `package.json`, `package-lock.json`           | Team 01              | Open a **dependency request** issue     |
+| `turbo.json`, `.github/`                      | Team 01              | Issue for Team 01                       |
+| `apps/api-*/src/app.ts`                       | Team 01              | You almost certainly do not — see below |
+| `apps/api-admin/src/app.ts` and `app.test.ts` | Team 03 + maintainer | Never weaken the role gate              |
+| `packages/auth/**`                            | Team 03 + maintainer | Issue, then a reviewed PR               |
+| `packages/models/src/db.ts`                   | Team 01              | Issue for Team 01                       |
+| `packages/ui/**`, `theme.css`                 | Team 02              | Issue for Team 02                       |
+| Root `layout.tsx`, dashboard `layout.tsx`     | Team 02              | Issue for Team 02                       |
 
 **Dependencies are frozen after week 1.** Every new package changes two files
 all thirteen teams share. Team 01 batches approved requests into one PR each
@@ -45,7 +61,7 @@ week. Before requesting, check whether `@repo/ui` already has what you need.
 
 ## Append-only registries
 
-Three files are shared but *designed* to be edited by everyone, because each team
+Three files are shared but _designed_ to be edited by everyone, because each team
 adds exactly one line and git merges non-adjacent line additions cleanly:
 
 - `apps/api-student/src/modules.ts` and `apps/api-admin/src/modules.ts`

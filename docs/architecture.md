@@ -31,7 +31,7 @@ first production code, all merging on the same weekend. In that setting, the
 question is not "will someone forget a role guard" but "when someone does, what
 happens".
 
-With a separate `api-admin`, the answer is *nothing* — `src/app.ts` mounts every
+With a separate `api-admin`, the answer is _nothing_ — `src/app.ts` mounts every
 module behind `requireAuth` + `requireRole('ADMIN', 'FACULTY')`, so a forgotten
 guard inside a module is a defence-in-depth failure rather than a data breach.
 `src/app.test.ts` exists purely to prove that gate holds.
@@ -65,13 +65,13 @@ Take `GET /api/attendance/me` on the student API:
 
 Two tokens, doing different jobs:
 
-| | Access token | Refresh token |
-|---|---|---|
-| What | Signed JWT | Random 48-byte string |
-| Lives | 15 minutes | 7 days |
-| Stored | In memory in the browser | httpOnly cookie; SHA-256 hash in Mongo |
-| Sent as | `Authorization: Bearer` | Automatically, by the browser |
-| Revocable | No | Yes |
+|           | Access token             | Refresh token                          |
+| --------- | ------------------------ | -------------------------------------- |
+| What      | Signed JWT               | Random 48-byte string                  |
+| Lives     | 15 minutes               | 7 days                                 |
+| Stored    | In memory in the browser | httpOnly cookie; SHA-256 hash in Mongo |
+| Sent as   | `Authorization: Bearer`  | Automatically, by the browser          |
+| Revocable | No                       | Yes                                    |
 
 The access token is short-lived precisely because it cannot be revoked. It is
 kept in a JavaScript variable rather than `localStorage` — anything readable by
@@ -124,16 +124,16 @@ takes a `studentId` parameter, that is a bug.
 
 ## Conventions that exist because of the team size
 
-| Convention | What it prevents |
-|---|---|
-| Self-registering modules + `modules.ts` | Thirteen teams editing `app.ts` |
-| No barrel files | Thirteen teams editing `models/index.ts` |
-| Nav entries as one file each + registry | Thirteen teams editing a nav array |
-| Dependencies frozen after week 1 | Constant `package-lock.json` conflicts |
-| Design tokens in `packages/ui/src/theme.css` | Thirteen shades of blue |
-| Zod schemas merged before code | Frontend and backend building different things |
-| **No team calls another team's HTTP endpoint** | **Teams blocking on each other's ship dates** |
-| **The seed populates every collection** | **Teams idle for want of data** |
+| Convention                                     | What it prevents                               |
+| ---------------------------------------------- | ---------------------------------------------- |
+| Self-registering modules + `modules.ts`        | Thirteen teams editing `app.ts`                |
+| No barrel files                                | Thirteen teams editing `models/index.ts`       |
+| Nav entries as one file each + registry        | Thirteen teams editing a nav array             |
+| Dependencies frozen after week 1               | Constant `package-lock.json` conflicts         |
+| Design tokens in `packages/ui/src/theme.css`   | Thirteen shades of blue                        |
+| Zod schemas merged before code                 | Frontend and backend building different things |
+| **No team calls another team's HTTP endpoint** | **Teams blocking on each other's ship dates**  |
+| **The seed populates every collection**        | **Teams idle for want of data**                |
 
 ### Read models, not each other's endpoints
 
@@ -142,7 +142,7 @@ directly, read-only. It never calls their REST endpoint.
 
 Model files are shared and importable. Module folders are owned. So reading
 `Attendance` from Team 12's analytics module creates no merge conflict with
-Team 06 and — more importantly — no *schedule* dependency: Team 12 can build
+Team 06 and — more importantly — no _schedule_ dependency: Team 12 can build
 every aggregation in week 2 against seeded data, long before Team 06 exposes an
 endpoint.
 
@@ -153,7 +153,7 @@ agreements in `docs/teams.md`.
 
 One place this trade is sharper: the AI assistant's tools read models directly
 rather than calling authenticated endpoints, so it no longer inherits the
-caller's permissions *structurally*. Every tool query must filter by
+caller's permissions _structurally_. Every tool query must filter by
 `currentUser(req).sub`, no tool schema may accept a `studentId`, and a
 cross-student abuse test is required before it merges.
 

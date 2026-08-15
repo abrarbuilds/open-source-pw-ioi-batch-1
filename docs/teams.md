@@ -5,26 +5,26 @@ student and a backend student sit in the same team and ship one vertical
 together — that is what lets thirteen teams work the same Saturday, because each
 team owns its own folders at every layer.
 
-Role identity is preserved *within* the team: typically 2 frontend + 2 backend,
+Role identity is preserved _within_ the team: typically 2 frontend + 2 backend,
 or 2 + 1 for three-person teams.
 
 **43 contributors + 2 program maintainers = 45.**
 
-| # | Team | Size | Owns |
-|---|---|---|---|
-| **01** | Core Platform & DevOps | 3 | repo root, `turbo.json`, `.github/`, `packages/{config,http,client}`, `models/db.ts`, seed harness, test harness |
-| **02** | Design System & UI Kit | 3 | `packages/ui`, `theme.css`, root layouts, dashboard shells in both apps |
-| **03** | Auth & Identity | 4 | `packages/auth`, `models/user.ts`, `modules/auth` in both APIs, login screens, route guards |
-| **04** | Class Materials | 3 | `models/material.ts`, `modules/materials` in both APIs, Cloudinary signing, `web-student/features/materials` |
-| **05** | Assignments & Submissions | 4 | `models/{assignment,submission}.ts`, `modules/assignments`, submit flow, grading endpoints |
-| **06** | Attendance | 4 | `models/attendance.ts`, `modules/attendance`, aggregation pipelines, attendance % screens |
-| **07** | Timetable & Sessions | 3 | `models/class-session.ts`, `modules/sessions`, weekly timetable, today's classes |
-| **08** | Announcements & Notifications | 3 | `models/{announcement,notification}.ts`, feed, notification bell, email digest |
-| **09** | Student Profile & Notes | 3 | `models/{note,bookmark}.ts`, `modules/{notes,profile}`, notes/bookmarks/profile screens; dashboard assembly in the integration weekend |
-| **10** | Admin Core & Batch Management | 4 | `web-admin` shell, `models/{batch,subject,enrollment}.ts`, `api-admin/modules/batches`, CSV import |
-| **11** | Admin People, Roles & Audit | 3 | `api-admin/modules/users`, role assignment, `models/audit-log.ts`, user management UI |
-| **12** | Admin Analytics & Reports | 3 | `api-admin/modules/analytics`, batch dashboards, at-risk report, CSV export |
-| **13** | AI Assistant Bot | 3 | `api-student/modules/assistant`, tool definitions, `web-student/features/assistant` |
+| #      | Team                          | Size | Owns                                                                                                                                   |
+| ------ | ----------------------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **01** | Core Platform & DevOps        | 3    | repo root, `turbo.json`, `.github/`, `packages/{config,http,client}`, `models/db.ts`, seed harness, test harness                       |
+| **02** | Design System & UI Kit        | 3    | `packages/ui`, `theme.css`, root layouts, dashboard shells in both apps                                                                |
+| **03** | Auth & Identity               | 4    | `packages/auth`, `models/user.ts`, `modules/auth` in both APIs, login screens, route guards                                            |
+| **04** | Class Materials               | 3    | `models/material.ts`, `modules/materials` in both APIs, Cloudinary signing, `web-student/features/materials`                           |
+| **05** | Assignments & Submissions     | 4    | `models/{assignment,submission}.ts`, `modules/assignments`, submit flow, grading endpoints                                             |
+| **06** | Attendance                    | 4    | `models/attendance.ts`, `modules/attendance`, aggregation pipelines, attendance % screens                                              |
+| **07** | Timetable & Sessions          | 3    | `models/class-session.ts`, `modules/sessions`, weekly timetable, today's classes                                                       |
+| **08** | Announcements & Notifications | 3    | `models/{announcement,notification}.ts`, feed, notification bell, email digest                                                         |
+| **09** | Student Profile & Notes       | 3    | `models/{note,bookmark}.ts`, `modules/{notes,profile}`, notes/bookmarks/profile screens; dashboard assembly in the integration weekend |
+| **10** | Admin Core & Batch Management | 4    | `web-admin` shell, `models/{batch,subject,enrollment}.ts`, `api-admin/modules/batches`, CSV import                                     |
+| **11** | Admin People, Roles & Audit   | 3    | `api-admin/modules/users`, role assignment, `models/audit-log.ts`, user management UI                                                  |
+| **12** | Admin Analytics & Reports     | 3    | `api-admin/modules/analytics`, batch dashboards, at-risk report, CSV export                                                            |
+| **13** | AI Assistant Bot              | 3    | `api-student/modules/assistant`, tool definitions, `web-student/features/assistant`                                                    |
 
 The authoritative version of this table is [`.github/CODEOWNERS`](../.github/CODEOWNERS)
 — it is what GitHub actually enforces on pull requests.
@@ -64,26 +64,26 @@ Two rules keep it that way:
 
 ## Agreements — not dependencies
 
-Four decisions two or more teams must make the *same way*. Nobody is blocked by
+Four decisions two or more teams must make the _same way_. Nobody is blocked by
 them, but disagreeing is expensive to unpick. Settle them in week 1 and write
 them here in `docs/`.
 
-| Agreement | Teams | Owner |
-|---|---|---|
+| Agreement                                                                                | Teams             | Owner  |
+| ---------------------------------------------------------------------------------------- | ----------------- | ------ |
 | Attendance-percentage formula (does `LATE` count? does `EXCUSED` leave the denominator?) | 06 · 09 · 12 · 13 | **06** |
-| Batch timezone rule, and what "today" means | 06 · 07 · 09 | **07** |
-| One chart library, requested once | 09 · 12 | **12** |
-| One Cloudinary signed-upload helper, written once | 04 · 05 · 09 | **04** |
+| Batch timezone rule, and what "today" means                                              | 06 · 07 · 09      | **07** |
+| One chart library, requested once                                                        | 09 · 12           | **12** |
+| One Cloudinary signed-upload helper, written once                                        | 04 · 05 · 09      | **04** |
 
 ## Timeline
 
-| Phase | Weekend | What ships |
-|---|---|---|
-| **W0** | *maintainers* | scaffold, CI, Vercel, Atlas, full seed, docs, team issues |
-| **W1** | all 13 teams | Zod contracts merged; implementation starts everywhere at once |
-| **W2–W6** | all 13 teams | each team ships its own vertical, independently |
-| **W7** | integration | dashboard assembly, `notify()` fan-out, cross-feature links |
-| **W8** | all | a11y, empty/error states, E2E suite, perf, rate limiting, docs |
+| Phase     | Weekend       | What ships                                                     |
+| --------- | ------------- | -------------------------------------------------------------- |
+| **W0**    | _maintainers_ | scaffold, CI, Vercel, Atlas, full seed, docs, team issues      |
+| **W1**    | all 13 teams  | Zod contracts merged; implementation starts everywhere at once |
+| **W2–W6** | all 13 teams  | each team ships its own vertical, independently                |
+| **W7**    | integration   | dashboard assembly, `notify()` fan-out, cross-feature links    |
+| **W8**    | all           | a11y, empty/error states, E2E suite, perf, rate limiting, docs |
 
 Each weekend ends merged and deployed. The live URLs should never sit broken.
 

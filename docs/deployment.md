@@ -7,12 +7,12 @@ Four Vercel projects from this one repository, plus MongoDB Atlas and Cloudinary
 Create four projects, all pointing at this repo, each with a different **Root
 Directory**:
 
-| Project | Root directory | Framework preset |
-|---|---|---|
-| `pw-tracker-student` | `apps/web-student` | Next.js |
-| `pw-tracker-admin` | `apps/web-admin` | Next.js |
-| `pw-tracker-api-student` | `apps/api-student` | Other |
-| `pw-tracker-api-admin` | `apps/api-admin` | Other |
+| Project                  | Root directory     | Framework preset |
+| ------------------------ | ------------------ | ---------------- |
+| `pw-tracker-student`     | `apps/web-student` | Next.js          |
+| `pw-tracker-admin`       | `apps/web-admin`   | Next.js          |
+| `pw-tracker-api-student` | `apps/api-student` | Other            |
+| `pw-tracker-api-admin`   | `apps/api-admin`   | Other            |
 
 The two API projects use the `vercel.json` already in their folder: it installs
 from the repo root, builds the shared packages via Turbo, and rewrites every
@@ -37,17 +37,17 @@ rather than to start batching pushes.
 ## Environment variables
 
 Set these per project in **Settings → Environment Variables**. Note carefully
-which ones must *not* be set on the frontends.
+which ones must _not_ be set on the frontends.
 
-| Variable | student web | admin web | api-student | api-admin |
-|---|:--:|:--:|:--:|:--:|
-| `MONGODB_URI` | — | — | ✅ | ✅ |
-| `JWT_ACCESS_SECRET` | — | — | ✅ | ✅ |
-| `JWT_REFRESH_SECRET` | — | — | ✅ | ✅ |
-| `CORS_ORIGIN` | — | — | ✅ | ✅ |
-| `NEXT_PUBLIC_API_URL` | ✅ | ✅ | — | — |
-| `CLOUDINARY_*` | — | — | ✅ | ✅ |
-| `ANTHROPIC_API_KEY` | — | — | ✅ | — |
+| Variable              | student web | admin web | api-student | api-admin |
+| --------------------- | :---------: | :-------: | :---------: | :-------: |
+| `MONGODB_URI`         |      —      |     —     |     ✅      |    ✅     |
+| `JWT_ACCESS_SECRET`   |      —      |     —     |     ✅      |    ✅     |
+| `JWT_REFRESH_SECRET`  |      —      |     —     |     ✅      |    ✅     |
+| `CORS_ORIGIN`         |      —      |     —     |     ✅      |    ✅     |
+| `NEXT_PUBLIC_API_URL` |     ✅      |    ✅     |      —      |     —     |
+| `CLOUDINARY_*`        |      —      |     —     |     ✅      |    ✅     |
+| `ANTHROPIC_API_KEY`   |      —      |     —     |     ✅      |     —     |
 
 The two APIs must share the **same** `JWT_ACCESS_SECRET` — an admin signing in
 through `api-admin` gets a token that `api-student` also has to be able to
