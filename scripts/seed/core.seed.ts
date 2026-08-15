@@ -110,13 +110,14 @@ export async function seedCore(now: Date) {
     ),
   )
 
-  // Four weeks of classes: each subject meets once a week, ending a week from
-  // now — so there are both past sessions (for attendance) and upcoming ones
-  // (for the timetable).
+  // Eight weeks of classes, each subject meeting once a week, starting four
+  // weeks ago. That deliberately straddles today: roughly half the sessions are
+  // in the past (so Team 06 has attendance to mark against) and half are ahead
+  // (so Team 07's timetable and "today's classes" have something to show).
   const termStart = startOfSeedTerm(now)
   const sessions = await ClassSession.insertMany(
     subjects.flatMap((subject, subjectIndex) =>
-      Array.from({ length: 5 }, (_, week) => {
+      Array.from({ length: 8 }, (_, week) => {
         const scheduledAt = new Date(termStart)
         scheduledAt.setDate(termStart.getDate() + week * 7 + (subjectIndex % 5))
         scheduledAt.setHours(9 + Math.floor(subjectIndex / 5) * 2, 0, 0, 0)

@@ -22,3 +22,6 @@ npm-debug.log*
 *.tsbuildinfo
 playwright-report/
 test-results/
+
+# Local MongoDB data (npm run db:local)
+.local-db/

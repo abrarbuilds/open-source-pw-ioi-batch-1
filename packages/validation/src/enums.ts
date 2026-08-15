@@ -30,5 +30,8 @@ export const notificationTypeSchema = z.enum([
 ])
 export type NotificationType = z.infer<typeof notificationTypeSchema>
 
+export const bookmarkTargetSchema = z.enum(['MATERIAL', 'ASSIGNMENT', 'ANNOUNCEMENT'])
+export type BookmarkTarget = z.infer<typeof bookmarkTargetSchema>
+
 /** Roles allowed to authenticate against `api-admin`. */
 export const ADMIN_PORTAL_ROLES: readonly Role[] = ['ADMIN', 'FACULTY']

@@ -20,7 +20,7 @@ or 2 + 1 for three-person teams.
 | **06** | Attendance | 4 | `models/attendance.ts`, `modules/attendance`, aggregation pipelines, attendance % screens |
 | **07** | Timetable & Sessions | 3 | `models/class-session.ts`, `modules/sessions`, weekly timetable, today's classes |
 | **08** | Announcements & Notifications | 3 | `models/{announcement,notification}.ts`, feed, notification bell, email digest |
-| **09** | Student Dashboard & Progress | 3 | `web-student/app/(dashboard)/dashboard/`, progress charts, grade breakdown, profile |
+| **09** | Student Profile & Notes | 3 | `models/{note,bookmark}.ts`, `modules/{notes,profile}`, notes/bookmarks/profile screens; dashboard assembly in the integration weekend |
 | **10** | Admin Core & Batch Management | 4 | `web-admin` shell, `models/{batch,subject,enrollment}.ts`, `api-admin/modules/batches`, CSV import |
 | **11** | Admin People, Roles & Audit | 3 | `api-admin/modules/users`, role assignment, `models/audit-log.ts`, user management UI |
 | **12** | Admin Analytics & Reports | 3 | `api-admin/modules/analytics`, batch dashboards, at-risk report, CSV export |
@@ -43,35 +43,57 @@ Each team elects one lead from within its 3–4. Leads review their team's PRs a
 attend a short cross-team sync. Three division leads (frontend, backend, admin)
 plus the program maintainers own the locked files listed in CONTRIBUTING.md.
 
-## What to do on weekend 1 if your team is blocked
+## Every team starts in week 1
 
-Teams 01, 02 and 03 are the foundation; the other ten cannot build against real
-auth or real UI components until week 1 ends. That does not mean waiting — the
-highest-leverage work available is contract-first:
+There is no dependency ordering to wait out. Three things make that true:
 
-1. **Write and merge your Zod schema** in `packages/validation/src/<feature>.ts`.
-   This is the contract both halves of your team code against, and it unblocks
-   everything else.
-2. **Write mock data** in your feature's `api.ts` so the frontend half can build
-   screens immediately.
-3. **Write `scripts/seed/<feature>.seed.ts`** so there is realistic demo data the
-   day your endpoints land.
-4. **Break your team's scope into issues** for weeks 2–8, labelled `team:NN`.
+1. **All the models are already scaffolded**, so nobody waits for a schema.
+2. **Auth is already built**, so no team waits for login.
+3. **`npm run seed` populates every collection** — 24 materials, 18 assignments,
+   221 submissions, 1,200 attendance records, 48 sessions, announcements, notes.
+   You never need another team to ship before you have realistic data.
 
-A team that does all four in week 1 will be faster for the remaining seven than
-one that spent week 1 waiting for auth.
+Two rules keep it that way:
+
+- **Never call another team's HTTP endpoint.** Need their data? Read their model
+  directly, read-only. Model files are shared and importable; module folders are
+  owned. This is the rule that removed every blocking dependency in the project.
+- **Merge your Zod schema in week 1**, before either half of your team writes
+  implementation code. It is the contract the frontend and backend build against
+  in parallel.
+
+## Agreements — not dependencies
+
+Four decisions two or more teams must make the *same way*. Nobody is blocked by
+them, but disagreeing is expensive to unpick. Settle them in week 1 and write
+them here in `docs/`.
+
+| Agreement | Teams | Owner |
+|---|---|---|
+| Attendance-percentage formula (does `LATE` count? does `EXCUSED` leave the denominator?) | 06 · 09 · 12 · 13 | **06** |
+| Batch timezone rule, and what "today" means | 06 · 07 · 09 | **07** |
+| One chart library, requested once | 09 · 12 | **12** |
+| One Cloudinary signed-upload helper, written once | 04 · 05 · 09 | **04** |
 
 ## Timeline
 
-| Phase | Weekend | What ships | Teams leading |
-|---|---|---|---|
-| **P0** | W0 | scaffold, CI, Vercel projects, Atlas, seed, docs, seeded issues | maintainers |
-| **P1** | W1–W2 | auth end to end, UI kit, dashboard shells, batch/subject CRUD | 01, 02, 03, 10 |
-| **P2** | W3–W5 | materials library, assignment submit + grade, attendance | 04, 05, 06, 10, 11 |
-| **P3** | W6–W7 | timetable, announcements, progress dashboard, analytics, AI assistant | 07, 08, 09, 12, 13 |
-| **P4** | W8 | a11y, empty/error states, E2E suite, perf, rate limiting, docs | all |
+| Phase | Weekend | What ships |
+|---|---|---|
+| **W0** | *maintainers* | scaffold, CI, Vercel, Atlas, full seed, docs, team issues |
+| **W1** | all 13 teams | Zod contracts merged; implementation starts everywhere at once |
+| **W2–W6** | all 13 teams | each team ships its own vertical, independently |
+| **W7** | integration | dashboard assembly, `notify()` fan-out, cross-feature links |
+| **W8** | all | a11y, empty/error states, E2E suite, perf, rate limiting, docs |
 
 Each weekend ends merged and deployed. The live URLs should never sit broken.
+
+## MVP
+
+MVP is **13 standalone verticals plus the login that already works**. Each team
+ships something demoable on its own; nothing in the MVP requires two teams to
+have finished. Everything cross-cutting — the composed dashboard, notification
+fan-out, the assistant's weekly digest — is explicitly post-MVP and lands in the
+integration weekend.
 
 **Stretch backlog, never required:** mentorship pairing, placement tracker,
 leaderboard, dark mode refinement, PWA/offline, mobile app. These exist as

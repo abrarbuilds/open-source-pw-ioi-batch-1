@@ -1,6 +1,11 @@
 import 'dotenv/config'
 import { connectToDatabase, disconnectFromDatabase, mongoose } from '@repo/models/db'
 import { SEED_PASSWORD, seedCore } from './core.seed'
+import { seedMaterials } from './materials.seed'
+import { seedAssignments } from './assignments.seed'
+import { seedAttendance } from './attendance.seed'
+import { seedAnnouncements } from './announcements.seed'
+import { seedNotes } from './notes.seed'
 
 /**
  * APPEND-ONLY — Team 01 owns this file; every team owns its own `*.seed.ts`.
@@ -8,9 +13,9 @@ import { SEED_PASSWORD, seedCore } from './core.seed'
  * Run with `npm run seed` from the repo root. It **wipes the database first**,
  * which is why it refuses to touch anything that looks like production.
  *
- * To add your team's demo data:
- *   1. Write `scripts/seed/<feature>.seed.ts` exporting `seed<Feature>(core)`.
- *   2. Import it above and add one line to the list below.
+ * Every collection is populated on purpose. No team should ever have to wait for
+ * another team to ship before it has realistic data to build against — that is
+ * what keeps thirteen teams working in parallel.
  */
 
 function assertNotProduction(uri: string) {
@@ -35,28 +40,40 @@ async function main() {
   const collections = await mongoose.connection.db?.collections()
   await Promise.all((collections ?? []).map((c) => c.deleteMany({})))
 
-  // A fixed date keeps the generated timetable identical between runs.
   const now = new Date()
 
   const core = await seedCore(now)
-  // await seedMaterials(core)      → Team 04
-  // await seedAssignments(core)    → Team 05
-  // await seedAttendance(core)     → Team 06
-  // await seedAnnouncements(core)  → Team 08
+  const materials = await seedMaterials(core)
+  const assignments = await seedAssignments(core, now)
+  const attendance = await seedAttendance(core, now)
+  const announcements = await seedAnnouncements(core, now)
+  const notes = await seedNotes(core)
+  // await seedYourFeature(core, now)   → add one line, alphabetical, keep it deterministic
 
   console.log(
     [
       '',
-      `  batch      ${core.batch.name}`,
-      `  subjects   ${core.subjects.length}`,
-      `  students   ${core.students.length}`,
-      `  faculty    ${core.faculty.length}`,
-      `  sessions   ${core.sessions.length}`,
+      `  batch          ${core.batch.name}`,
+      `  subjects       ${core.subjects.length}`,
+      `  students       ${core.students.length}`,
+      `  faculty        ${core.faculty.length}`,
+      `  sessions       ${core.sessions.length} (${attendance.pastSessions} in the past)`,
+      `  materials      ${materials.length}`,
+      `  assignments    ${assignments.assignments.length}`,
+      `  submissions    ${assignments.submissionCount}`,
+      `  attendance     ${attendance.records}`,
+      `  announcements  ${announcements.announcements}`,
+      `  notifications  ${announcements.notifications}`,
+      `  notes          ${notes.notes}`,
+      `  bookmarks      ${notes.bookmarks}`,
       '',
       '  Sign in with any of these — password is the same for all:',
       `    admin       admin@college.edu     / ${SEED_PASSWORD}`,
       `    faculty     faculty1@college.edu  / ${SEED_PASSWORD}`,
       `    student     student01@college.edu / ${SEED_PASSWORD}`,
+      '',
+      '  student04@college.edu is deliberately below 75% attendance —',
+      '  use them to test low-attendance warnings and the at-risk report.',
       '',
     ].join('\n'),
   )

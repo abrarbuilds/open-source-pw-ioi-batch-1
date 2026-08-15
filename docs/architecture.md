@@ -132,6 +132,30 @@ takes a `studentId` parameter, that is a bug.
 | Dependencies frozen after week 1 | Constant `package-lock.json` conflicts |
 | Design tokens in `packages/ui/src/theme.css` | Thirteen shades of blue |
 | Zod schemas merged before code | Frontend and backend building different things |
+| **No team calls another team's HTTP endpoint** | **Teams blocking on each other's ship dates** |
+| **The seed populates every collection** | **Teams idle for want of data** |
+
+### Read models, not each other's endpoints
+
+A team that needs another team's data imports that model and queries it
+directly, read-only. It never calls their REST endpoint.
+
+Model files are shared and importable. Module folders are owned. So reading
+`Attendance` from Team 12's analytics module creates no merge conflict with
+Team 06 and — more importantly — no *schedule* dependency: Team 12 can build
+every aggregation in week 2 against seeded data, long before Team 06 exposes an
+endpoint.
+
+The cost is that the same logic can be written twice. Where that actually
+matters — the attendance-percentage formula is the real case — the owning team
+publishes the calculation and the others reuse it. That is one of the four
+agreements in `docs/teams.md`.
+
+One place this trade is sharper: the AI assistant's tools read models directly
+rather than calling authenticated endpoints, so it no longer inherits the
+caller's permissions *structurally*. Every tool query must filter by
+`currentUser(req).sub`, no tool schema may accept a `studentId`, and a
+cross-student abuse test is required before it merges.
 
 None of these are best practice in the abstract. They are specifically the rules
 that let a large group work in one repo at the same time.

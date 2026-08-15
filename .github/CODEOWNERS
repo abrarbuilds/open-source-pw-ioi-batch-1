@@ -61,7 +61,13 @@
 /apps/api-student/src/modules/announcements/    @team-08-announcements
 /apps/api-admin/src/modules/announcements/      @team-08-announcements
 
-/apps/web-student/app/(dashboard)/dashboard/    @team-09-dashboard
+/packages/models/src/note.ts                    @team-09-profile
+/packages/models/src/bookmark.ts                @team-09-profile
+/apps/api-student/src/modules/notes/            @team-09-profile
+/apps/api-student/src/modules/profile/          @team-09-profile
+/apps/web-student/features/notes/               @team-09-profile
+/apps/web-student/features/profile/             @team-09-profile
+/apps/web-student/app/(dashboard)/dashboard/    @team-09-profile
 
 /packages/models/src/batch.ts                   @team-10-admin-core
 /packages/models/src/subject.ts                 @team-10-admin-core
