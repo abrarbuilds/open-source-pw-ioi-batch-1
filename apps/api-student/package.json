@@ -14,6 +14,7 @@
     "@repo/auth": "*",
     "@repo/http": "*",
     "@repo/models": "*",
+    "@repo/services": "*",
     "@repo/validation": "*",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",

@@ -4,6 +4,7 @@ import express from 'express'
 import helmet from 'helmet'
 import { createErrorHandler, notFoundHandler } from '@repo/http/error-middleware'
 import { connectToDatabase } from '@repo/models/db'
+import { createLocalUploadRouter } from '@repo/services/storage-local'
 import { modules } from './modules'
 
 /**
@@ -37,6 +38,12 @@ export function createApp() {
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'api-student', time: new Date().toISOString() })
   })
+
+  // Local file storage only. On Vercel STORAGE_DRIVER=cloudinary, so this is
+  // never mounted there — serverless filesystems are ephemeral and per-instance.
+  if ((process.env.STORAGE_DRIVER || 'local') === 'local') {
+    app.use('/api/uploads', createLocalUploadRouter())
+  }
 
   for (const mod of modules) {
     app.use(mod.basePath, mod.router)

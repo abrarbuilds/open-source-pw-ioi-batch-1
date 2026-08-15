@@ -25,3 +25,6 @@ test-results/
 
 # Local MongoDB data (npm run db:local)
 .local-db/
+
+# Local file storage (STORAGE_DRIVER=local)
+.local-uploads/

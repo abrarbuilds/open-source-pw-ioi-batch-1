@@ -8,11 +8,21 @@ biggest reason first-time contributors give up.
 
 - **Node 20 or newer** — check with `node -v`. Install via [nvm](https://github.com/nvm-sh/nvm).
 - **npm 10 or newer** — comes with Node.
-- A **MongoDB Atlas** account (free) — or Docker, if you prefer local Mongo.
 - **Git**, and a GitHub account added to the repo by a lead.
 
-You do **not** need Cloudinary or Anthropic keys to get started. Only Team 04
-and Team 13 need those, and only once they start their features.
+**That is the whole list.** You do not need a MongoDB Atlas account, a
+Cloudinary account, an Anthropic API key, or an email provider. Everything
+external has a local driver:
+
+| Service | Local default | What it does |
+|---|---|---|
+| Database | `npm run db:local` | Runs a real MongoDB on your machine |
+| File storage | `STORAGE_DRIVER=local` | Writes uploads to `.local-uploads/` |
+| Email | `EMAIL_DRIVER=console` | Prints the email (and reset links) to your terminal |
+| AI assistant | `AI_DRIVER=stub` | Deterministic canned replies and tool calls |
+
+The real services are only used in deployed environments, where the maintainers
+hold the credentials. You never need an account to build your feature.
 
 ## 1. Clone and install
 
@@ -28,7 +38,17 @@ that is what the workspace setup buys us. Never run `npm install` inside
 
 ## 2. Get a database
 
-### Option A — MongoDB Atlas (recommended)
+### Option A — the bundled local database (recommended)
+
+```bash
+npm run db:local
+```
+
+Leave it running in its own terminal. It downloads a real MongoDB binary the
+first time (~90MB) and stores data in `.local-db/`, so your data survives
+restarts. It prints the connection string to put in `.env`.
+
+### Option B — MongoDB Atlas
 
 1. Sign up at <https://www.mongodb.com/cloud/atlas> and create a **free M0**
    cluster.
@@ -43,7 +63,7 @@ Name the database `tracker_dev` in the URI:
 mongodb+srv://USER:PASSWORD@CLUSTER.mongodb.net/tracker_dev?retryWrites=true&w=majority
 ```
 
-### Option B — local Mongo with Docker
+### Option C — Docker
 
 ```bash
 docker run -d -p 27017:27017 --name tracker-mongo mongo:7

@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import { requireAuth, requireRole } from '@repo/auth/middleware'
 import { createErrorHandler, notFoundHandler } from '@repo/http/error-middleware'
 import { connectToDatabase } from '@repo/models/db'
+import { createLocalUploadRouter } from '@repo/services/storage-local'
 import { ADMIN_PORTAL_ROLES } from '@repo/validation/enums'
 import { modules } from './modules'
 
@@ -39,6 +40,11 @@ export function createApp() {
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'api-admin', time: new Date().toISOString() })
   })
+
+  // Local file storage only — see the note in `api-student/src/app.ts`.
+  if ((process.env.STORAGE_DRIVER || 'local') === 'local') {
+    app.use('/api/uploads', requireAuth, createLocalUploadRouter())
+  }
 
   // Behind the gate on purpose: the admin frontend calls this to confirm the
   // session is still valid *and* still privileged, and `app.test.ts` uses it to
