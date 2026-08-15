@@ -1,0 +1,54 @@
+/**
+ * LOCKED FILE — Team 02 (Design System).
+ *
+ * The entire palette for both portals. Imported by each app's `globals.css` so
+ * the student and admin apps cannot drift apart.
+ *
+ * Feature teams use these through utilities (`bg-surface`, `text-fg-muted`,
+ * `border-line`) and never hard-code a hex value. Need a colour that is not
+ * here? Open an issue for Team 02 rather than adding one locally.
+ */
+@theme {
+  --color-brand: #4f46e5;
+  --color-brand-strong: #4338ca;
+
+  --color-surface: #ffffff;
+  --color-surface-2: #f5f6f8;
+  --color-surface-3: #e8eaee;
+
+  --color-fg: #14161a;
+  --color-fg-muted: #5b6270;
+  --color-fg-subtle: #8b929f;
+
+  --color-line: #e2e5ea;
+
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-danger: #b91c1c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-surface: #14161a;
+    --color-surface-2: #1c1f26;
+    --color-surface-3: #272b34;
+
+    --color-fg: #f2f4f7;
+    --color-fg-muted: #a4abb8;
+    --color-fg-subtle: #767d8b;
+
+    --color-line: #2c313a;
+
+    --color-brand: #818cf8;
+    --color-brand-strong: #a5b4fc;
+
+    --color-success: #4ade80;
+    --color-warning: #fbbf24;
+    --color-danger: #f87171;
+  }
+}
+
+body {
+  background-color: var(--color-surface-2);
+  color: var(--color-fg);
+}

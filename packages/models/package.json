@@ -1,0 +1,25 @@
+{
+  "name": "@repo/models",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch --preserveWatchOutput",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@repo/validation": "*",
+    "mongoose": "^8.9.2"
+  },
+  "devDependencies": {
+    "@repo/config": "*",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,62 @@
+name: Feature task
+description: A piece of work for one contributor, one PR.
+labels: ['enhancement']
+body:
+  - type: dropdown
+    id: team
+    attributes:
+      label: Owning team
+      options:
+        - '01 — Core Platform & DevOps'
+        - '02 — Design System & UI Kit'
+        - '03 — Auth & Identity'
+        - '04 — Class Materials'
+        - '05 — Assignments & Submissions'
+        - '06 — Attendance'
+        - '07 — Timetable & Sessions'
+        - '08 — Announcements & Notifications'
+        - '09 — Student Dashboard & Progress'
+        - '10 — Admin Core & Batch Management'
+        - '11 — Admin People, Roles & Audit'
+        - '12 — Admin Analytics & Reports'
+        - '13 — AI Assistant Bot'
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: What should be true when this is done
+      description: Describe the outcome, not the implementation.
+      placeholder: A student can see their attendance percentage for each subject.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Files this should touch
+      description: |
+        If this list spans more than one team's folders, split the issue.
+      placeholder: |
+        - packages/validation/src/attendance.ts
+        - apps/api-student/src/modules/attendance/
+    validations:
+      required: true
+
+  - type: textarea
+    id: blockers
+    attributes:
+      label: What this depends on
+      placeholder: 'Blocked by #12 (attendance endpoints)'
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty
+      options:
+        - 'good first issue — a few hours, well-specified'
+        - 'medium — one weekend'
+        - 'hard — needs design discussion first'
+    validations:
+      required: true

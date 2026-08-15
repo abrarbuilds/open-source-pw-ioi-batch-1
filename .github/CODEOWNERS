@@ -1,0 +1,78 @@
+# Who must review what.
+#
+# GitHub applies the LAST matching rule, so the order below matters: broad rules
+# first, specific team ownership after.
+#
+# Replace the placeholder team handles with your real GitHub teams before the
+# batch starts (`@org/team-04-materials` etc.).
+
+# Fallback — anything not claimed below needs a maintainer.
+*                                               @maintainers
+
+# ---------------------------------------------------------------------------
+# Locked infrastructure. Students may propose changes; a lead must approve them.
+# ---------------------------------------------------------------------------
+/package.json                                   @maintainers @team-01-platform
+/package-lock.json                              @maintainers @team-01-platform
+/turbo.json                                     @team-01-platform
+/.github/                                       @maintainers @team-01-platform
+/packages/config/                               @team-01-platform
+/packages/http/                                 @team-01-platform
+/packages/client/                               @team-01-platform
+/packages/models/src/db.ts                      @team-01-platform @maintainers
+/packages/models/src/define-model.ts            @team-01-platform
+/scripts/seed/index.ts                          @team-01-platform
+
+# Security-sensitive. Never self-merge.
+/packages/auth/                                 @team-03-auth @maintainers
+/apps/api-admin/src/app.ts                      @team-03-auth @maintainers
+/apps/api-admin/src/app.test.ts                 @team-03-auth @maintainers
+
+# Design system.
+/packages/ui/                                   @team-02-design
+/apps/web-student/app/layout.tsx                @team-02-design
+/apps/web-admin/app/layout.tsx                  @team-02-design
+
+# ---------------------------------------------------------------------------
+# Feature teams — each owns its vertical across every layer.
+# ---------------------------------------------------------------------------
+/packages/models/src/material.ts                @team-04-materials
+/apps/api-student/src/modules/materials/        @team-04-materials
+/apps/api-admin/src/modules/materials/          @team-04-materials
+/apps/web-student/features/materials/           @team-04-materials
+
+/packages/models/src/assignment.ts              @team-05-assignments
+/packages/models/src/submission.ts              @team-05-assignments
+/apps/api-student/src/modules/assignments/      @team-05-assignments
+/apps/api-admin/src/modules/assignments/        @team-05-assignments
+/apps/web-student/features/assignments/         @team-05-assignments
+
+/packages/models/src/attendance.ts              @team-06-attendance
+/apps/api-student/src/modules/attendance/       @team-06-attendance
+/apps/api-admin/src/modules/attendance/         @team-06-attendance
+/apps/web-student/features/attendance/          @team-06-attendance
+
+/packages/models/src/class-session.ts           @team-07-timetable
+/apps/api-student/src/modules/sessions/         @team-07-timetable
+/apps/api-admin/src/modules/sessions/           @team-07-timetable
+
+/packages/models/src/announcement.ts            @team-08-announcements
+/packages/models/src/notification.ts            @team-08-announcements
+/apps/api-student/src/modules/announcements/    @team-08-announcements
+/apps/api-admin/src/modules/announcements/      @team-08-announcements
+
+/apps/web-student/app/(dashboard)/dashboard/    @team-09-dashboard
+
+/packages/models/src/batch.ts                   @team-10-admin-core
+/packages/models/src/subject.ts                 @team-10-admin-core
+/packages/models/src/enrollment.ts              @team-10-admin-core
+/apps/api-admin/src/modules/batches/            @team-10-admin-core
+
+/packages/models/src/audit-log.ts               @team-11-people
+/apps/api-admin/src/modules/users/              @team-11-people
+
+/apps/api-admin/src/modules/analytics/          @team-12-analytics
+
+/packages/models/src/conversation.ts            @team-13-ai
+/apps/api-student/src/modules/assistant/        @team-13-ai
+/apps/web-student/features/assistant/           @team-13-ai

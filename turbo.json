@@ -1,0 +1,46 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [".env"],
+  "globalEnv": [
+    "NODE_ENV",
+    "MONGODB_URI",
+    "JWT_ACCESS_SECRET",
+    "JWT_REFRESH_SECRET",
+    "CLOUDINARY_CLOUD_NAME",
+    "CLOUDINARY_API_KEY",
+    "CLOUDINARY_API_SECRET",
+    "ANTHROPIC_API_KEY",
+    "NEXT_PUBLIC_API_URL",
+    "CORS_ORIGIN"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    // The API apps are compiled by Vercel's Node runtime from `api/index.ts`,
+    // so their `build` is a typecheck and emits nothing.
+    "api-student#build": { "dependsOn": ["^build"], "outputs": [] },
+    "api-admin#build": { "dependsOn": ["^build"], "outputs": [] },
+    "api-student#test": { "dependsOn": ["^build"], "outputs": [] },
+    "api-admin#test": { "dependsOn": ["^build"], "outputs": [] },
+    "clean": {
+      "cache": false
+    }
+  }
+}
