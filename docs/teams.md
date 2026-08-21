@@ -8,7 +8,7 @@ team owns its own folders at every layer.
 Role identity is preserved _within_ the team: typically 2 frontend + 2 backend,
 or 2 + 1 for three-person teams.
 
-**43 contributors + 2 program maintainers = 45.**
+**46 contributors + 2 program maintainers = 48.**
 
 | #      | Team                          | Size | Owns                                                                                                                                   |
 | ------ | ----------------------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------- |
@@ -25,17 +25,26 @@ or 2 + 1 for three-person teams.
 | **11** | Admin People, Roles & Audit   | 3    | `api-admin/modules/users`, role assignment, `models/audit-log.ts`, user management UI                                                  |
 | **12** | Admin Analytics & Reports     | 3    | `api-admin/modules/analytics`, batch dashboards, at-risk report, CSV export                                                            |
 | **13** | AI Assistant Bot              | 3    | `api-student/modules/assistant`, tool definitions, `web-student/features/assistant`                                                    |
+| **14** | QA & Testing                  | 3    | `scripts/e2e/` (Playwright scenarios), `docs/qa-checklist.md`, cross-team integration test triage                                      |
 
 The authoritative version of this table is [`.github/CODEOWNERS`](../.github/CODEOWNERS)
 — it is what GitHub actually enforces on pull requests.
 
-## No QA team, on purpose
+## Testing ownership — the split
 
-Every team writes tests for its own vertical. Team 01 owns the shared test
-harness and the end-to-end suite that all teams contribute scenarios to.
+Every feature team (01–13) writes its own unit and endpoint tests as part of
+the **Definition of ready to merge**: happy path, auth requirement, and one
+abuse case. That requirement is non-negotiable and does not move to Team 14.
 
-A QA silo at this scale becomes a bottleneck that blocks twelve other teams, and
-it teaches the wrong lesson — that testing is somebody else's job.
+Team 14 **owns the cross-cutting layer** — scenarios that span two or more
+teams' code and that no single feature team would naturally write. Examples:
+publish assignment → submit → grade → student sees mark; or admin marks
+attendance → AI assistant quotes the number. Team 01 owns the Playwright
+harness and CI step; Team 14 owns the scenario files inside `scripts/e2e/`.
+
+The `docs/qa-checklist.md` that Team 14 publishes is what reviewers open before
+clicking Approve — it is not a gate Team 14 controls, it is a shared standard
+the whole batch uses.
 
 ## Leads
 

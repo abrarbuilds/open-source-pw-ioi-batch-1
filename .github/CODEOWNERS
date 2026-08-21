@@ -91,3 +91,12 @@ docs/                                           @akashmeruva-cd
 /packages/models/src/conversation.ts            @team-13-ai
 /apps/api-student/src/modules/assistant/        @team-13-ai
 /apps/web-student/features/assistant/           @team-13-ai
+
+# ── QA & Testing ─────────────────────────────────────────────────────────────
+# Team 14 owns the cross-team E2E scenario files and the QA checklist.
+# Note: CODEOWNERS does not support ** globs on GitHub — individual unit test
+# files inside feature folders are co-owned by the feature team (by the rule
+# above). Only the dedicated E2E directory is claimed here.
+/scripts/e2e/                                   @team-14-qa
+docs/qa-checklist.md                            @team-14-qa
+.github/ISSUE_TEMPLATE/qa_test_task.yml         @team-14-qa
