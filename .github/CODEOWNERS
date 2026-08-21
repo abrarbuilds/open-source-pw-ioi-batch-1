@@ -3,32 +3,41 @@
 # GitHub applies the LAST matching rule, so the order below matters: broad rules
 # first, specific team ownership after.
 #
-# Replace the placeholder team handles with your real GitHub teams before the
-# batch starts (`@org/team-04-materials` etc.).
+# ⚠️  @maintainers has been replaced with the real handle @akashmeruva-cd.
+#     Replace team handles (e.g. @team-04-materials) with real GitHub team
+#     slugs before the batch starts (e.g. @akashmeruva-cd/team-04-materials).
+#
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
-# Fallback — anything not claimed below needs a maintainer.
-*                                               @maintainers
+# ── Default: maintainer must review anything not claimed below ───────────────
+*                                               @akashmeruva-cd
 
 # ---------------------------------------------------------------------------
-# Locked infrastructure. Students may propose changes; a lead must approve them.
+# Locked infrastructure. Students may propose changes; maintainer must approve.
 # ---------------------------------------------------------------------------
-/package.json                                   @maintainers @team-01-platform
-/package-lock.json                              @maintainers @team-01-platform
-/turbo.json                                     @team-01-platform
-/.github/                                       @maintainers @team-01-platform
-/packages/config/                               @team-01-platform
-/packages/http/                                 @team-01-platform
-/packages/client/                               @team-01-platform
-/packages/models/src/db.ts                      @team-01-platform @maintainers
-/packages/models/src/define-model.ts            @team-01-platform
-/scripts/seed/index.ts                          @team-01-platform
+/package.json                                   @akashmeruva-cd @team-01-platform
+/package-lock.json                              @akashmeruva-cd @team-01-platform
+/turbo.json                                     @akashmeruva-cd @team-01-platform
+/.github/                                       @akashmeruva-cd @team-01-platform
+/packages/config/                               @akashmeruva-cd @team-01-platform
+/packages/http/                                 @akashmeruva-cd @team-01-platform
+/packages/client/                               @akashmeruva-cd @team-01-platform
+/packages/models/src/db.ts                      @akashmeruva-cd @team-01-platform
+/packages/models/src/define-model.ts            @akashmeruva-cd @team-01-platform
+/scripts/seed/index.ts                          @akashmeruva-cd @team-01-platform
 
-# Security-sensitive. Never self-merge.
-/packages/auth/                                 @team-03-auth @maintainers
-/apps/api-admin/src/app.ts                      @team-03-auth @maintainers
-/apps/api-admin/src/app.test.ts                 @team-03-auth @maintainers
+# ── Documentation ────────────────────────────────────────────────────────────
+README.md                                       @akashmeruva-cd
+CONTRIBUTING.md                                 @akashmeruva-cd
+LICENSE                                         @akashmeruva-cd
+docs/                                           @akashmeruva-cd
 
-# Design system.
+# ── Security-sensitive. Never self-merge. ────────────────────────────────────
+/packages/auth/                                 @akashmeruva-cd @team-03-auth
+/apps/api-admin/src/app.ts                      @akashmeruva-cd @team-03-auth
+/apps/api-admin/src/app.test.ts                 @akashmeruva-cd @team-03-auth
+
+# ── Design system ────────────────────────────────────────────────────────────
 /packages/ui/                                   @team-02-design
 /apps/web-student/app/layout.tsx                @team-02-design
 /apps/web-admin/app/layout.tsx                  @team-02-design
@@ -62,7 +71,7 @@
 /apps/api-admin/src/modules/announcements/      @team-08-announcements
 
 /packages/models/src/note.ts                    @team-09-profile
-/packages/models/src/bookmark.ts                @team-09-profile
+/packages/models/src/bookmark.ts               @team-09-profile
 /apps/api-student/src/modules/notes/            @team-09-profile
 /apps/api-student/src/modules/profile/          @team-09-profile
 /apps/web-student/features/notes/               @team-09-profile
