@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+
+/* Tailwind scans source files for class names. `@repo/ui` lives outside this
+   app, so it has to be pointed at explicitly or every shared component renders
+   unstyled. */
+@source '../../../packages/ui/src';
+
+/* Design tokens — owned by Team 02, shared with the admin portal. */
+@import '../../../packages/ui/src/theme.css';

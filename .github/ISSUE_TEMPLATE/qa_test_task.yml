@@ -1,0 +1,77 @@
+name: QA test task
+description: A cross-team test scenario or QA checklist item for Team 14.
+labels: ['testing', 'qa']
+body:
+  - type: dropdown
+    id: test_type
+    attributes:
+      label: Type of test
+      options:
+        - 'E2E — full user journey in Playwright'
+        - 'Integration — cross-team API or model interaction'
+        - 'Regression — confirming a fixed bug stays fixed'
+        - 'QA checklist item — pre-merge review task'
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: teams_crossed
+    attributes:
+      label: Teams whose code this scenario crosses
+      options:
+        - label: '01 — Core Platform & DevOps'
+        - label: '02 — Design System & UI Kit'
+        - label: '03 — Auth & Identity'
+        - label: '04 — Class Materials'
+        - label: '05 — Assignments & Submissions'
+        - label: '06 — Attendance'
+        - label: '07 — Timetable & Sessions'
+        - label: '08 — Announcements & Notifications'
+        - label: '09 — Student Profile & Notes'
+        - label: '10 — Admin Core & Batch Management'
+        - label: '11 — Admin People, Roles & Audit'
+        - label: '12 — Admin Analytics & Reports'
+        - label: '13 — AI Assistant Bot'
+
+  - type: textarea
+    id: scenario
+    attributes:
+      label: Scenario (step-by-step)
+      description: |
+        Write this as a user journey. Use seeded accounts where possible.
+      placeholder: |
+        1. Sign in as faculty1@college.edu
+        2. Publish assignment "Week 3 Lab"
+        3. Sign in as student01@college.edu
+        4. Submit the assignment with a file
+        5. Sign back in as faculty1 and grade the submission (marks: 87)
+        6. Sign in as student01 — verify marks show 87 on the grades page
+    validations:
+      required: true
+
+  - type: textarea
+    id: assertions
+    attributes:
+      label: What the test must assert
+      description: List the specific assertions, not just the happy path.
+      placeholder: |
+        - Submission row exists in DB with correct studentId
+        - Student cannot read another student's submission (test as student02)
+        - Grade is visible on /assignments and matches /analytics at-risk threshold
+    validations:
+      required: true
+
+  - type: textarea
+    id: seed_accounts
+    attributes:
+      label: Seeded accounts / data this uses
+      placeholder: |
+        student01@college.edu / password123
+        faculty1@college.edu / password123
+        Assignment: "Week 3 Lab" (id from seed)
+
+  - type: textarea
+    id: blockers
+    attributes:
+      label: What this depends on
+      placeholder: 'Playwright harness (#XX) must exist. Team 05 endpoints must be running.'

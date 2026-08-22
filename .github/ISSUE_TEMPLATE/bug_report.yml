@@ -1,0 +1,41 @@
+name: Bug report
+description: Something in the app behaves incorrectly.
+labels: ['bug']
+body:
+  - type: dropdown
+    id: app
+    attributes:
+      label: Which app?
+      options:
+        - web-student (student portal)
+        - web-admin (admin portal)
+        - api-student
+        - api-admin
+        - Local setup / tooling
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include which seeded account you were signed in as.
+      placeholder: |
+        1. npm run seed
+        2. Sign in as student01@college.edu
+        3. Open /attendance
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected vs what happened
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console or terminal output
+      render: shell

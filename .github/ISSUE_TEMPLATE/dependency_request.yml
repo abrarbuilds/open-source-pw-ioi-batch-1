@@ -1,0 +1,35 @@
+name: Dependency request
+description: Ask for a new npm package. Dependencies are frozen after week 1.
+labels: ['dependency']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Every new dependency changes `package.json` and `package-lock.json` —
+        files all thirteen teams share. Team 01 batches approved requests into a
+        single PR each week, which is why you cannot just `npm install` it.
+
+  - type: input
+    id: package
+    attributes:
+      label: Package name and version
+      placeholder: 'recharts@^2.15.0'
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: What you need it for
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you tried without it
+      description: |
+        Can this be done with what is already installed? Is there something
+        similar already in `@repo/ui`?
+    validations:
+      required: true

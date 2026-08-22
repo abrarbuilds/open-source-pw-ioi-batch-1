@@ -1,0 +1,30 @@
+node_modules/
+dist/
+build/
+.next/
+out/
+coverage/
+.turbo/
+
+.env
+.env.local
+.env.*.local
+!.env.example
+
+*.log
+npm-debug.log*
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+.vercel
+*.tsbuildinfo
+playwright-report/
+test-results/
+
+# Local MongoDB data (npm run db:local)
+.local-db/
+
+# Local file storage (STORAGE_DRIVER=local)
+.local-uploads/
