@@ -18,10 +18,13 @@ function generateToken(): { token: string; hash: string } {
 export async function requestPasswordReset(email: string): Promise<void> {
   const db = getDb()
 
-  // 1. Find user by email
-  const userRecord = await db.query.profiles.findFirst({
-    where: eq(profiles.email, email.toLowerCase()),
-  })
+  // 1. Find user by email — using select().from() because db.query requires
+  //    a typed schema registry which the cached db instance does not expose.
+  const [userRecord] = await db
+    .select()
+    .from(profiles)
+    .where(eq(profiles.email, email.toLowerCase()))
+    .limit(1)
 
   // Security rule: Do not throw if user is not found, to prevent email enumeration
   if (!userRecord) return
@@ -54,9 +57,11 @@ export async function resetPassword(token: string, newPassword: string): Promise
   const tokenHash = createHash('sha256').update(token).digest('hex')
 
   // 1. Find the token in the DB
-  const tokenRecord = await db.query.authTokens.findFirst({
-    where: and(eq(authTokens.tokenHash, tokenHash), eq(authTokens.type, 'PASSWORD_RESET')),
-  })
+  const [tokenRecord] = await db
+    .select()
+    .from(authTokens)
+    .where(and(eq(authTokens.tokenHash, tokenHash), eq(authTokens.type, 'PASSWORD_RESET')))
+    .limit(1)
 
   if (!tokenRecord) {
     throw new Error('Invalid or expired reset token')
