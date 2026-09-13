@@ -1,7 +1,6 @@
 import { randomBytes, createHash } from 'node:crypto'
-import { getDb, getSupabaseAdmin } from '@repo/models/db'
+import { getDb, getSupabaseAdmin, eq, and } from '@repo/models/db'
 import { authTokens, profiles } from '@repo/models/schema'
-import { eq, and } from 'drizzle-orm'
 
 /**
  * Generates a cryptographically random token and its SHA-256 hash.
