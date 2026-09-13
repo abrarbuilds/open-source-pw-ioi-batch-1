@@ -42,3 +42,9 @@ export const passwordResetSchema = z.object({
   newPassword: z.string().min(8).max(128),
 })
 export type PasswordResetInput = z.infer<typeof passwordResetSchema>
+
+export const changePasswordSchema = z.object({
+  oldPassword: z.string().min(1),
+  newPassword: z.string().min(8).max(128),
+})
+export type ChangePasswordInput = z.infer<typeof changePasswordSchema>
