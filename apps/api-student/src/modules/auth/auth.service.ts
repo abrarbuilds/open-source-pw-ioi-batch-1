@@ -1,3 +1,4 @@
+import { getEmail } from '@repo/services/email'
 import { HttpError } from '@repo/http/http-error'
 import { and, eq, getDb, getSupabaseAdmin } from '@repo/models/db'
 import { authTokens, profiles } from '@repo/models/schema'
@@ -165,7 +166,22 @@ export async function getUserById(id: string) {
  */
 export async function requestReset(input: PasswordResetRequestInput): Promise<void> {
   const db = getDb()
-  await requestPasswordReset(input.email, db, { profiles, authTokens }, { eq })
+  const emailDriver = getEmail()
+  const frontendUrl = process.env.STUDENT_PORTAL_URL || 'http://localhost:3000'
+
+  await requestPasswordReset(
+    input.email,
+    db,
+    { profiles, authTokens },
+    { eq },
+    async (email, token) => {
+      await emailDriver.send({
+        to: email,
+        subject: 'Reset your password',
+        text: `Click this link to reset your password: ${frontendUrl}/reset-password?token=${token}.\n\nIf you did not request this, ignore this email.`,
+      })
+    },
+  )
 }
 
 /**
