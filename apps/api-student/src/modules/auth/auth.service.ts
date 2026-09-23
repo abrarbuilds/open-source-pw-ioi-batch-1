@@ -43,14 +43,15 @@ export async function registerUser(input: RegisterInput) {
   const db = getDb()
   const supabase = getSupabaseAdmin()
 
-  // Check for existing profile first
+  // Check domain restriction first
+  if (!input.email.endsWith('@college.edu')) {
+    throw HttpError.badRequest('Only @college.edu emails are allowed.')
+  }
+
+  // Check for existing profile
   const existing = await db.select().from(profiles).where(eq(profiles.email, input.email)).limit(1)
   if (existing.length > 0) {
     throw HttpError.conflict('An account with this email already exists')
-  }
-
-  if (!input.email.endsWith('@college.edu')) {
-    throw HttpError.badRequest('Only @college.edu emails are allowed.')
   }
 
   // Create user in Supabase Auth
@@ -169,6 +170,10 @@ export async function getUserById(id: string) {
  * Always returns successfully — never reveals whether the email exists.
  */
 export async function requestReset(input: PasswordResetRequestInput): Promise<void> {
+  if (!input.email.endsWith('@college.edu')) {
+    throw HttpError.badRequest('Only @college.edu emails are allowed.')
+  }
+
   const db = getDb()
   const emailDriver = getEmail()
   const frontendUrl = process.env.STUDENT_PORTAL_URL || 'http://localhost:3000'
