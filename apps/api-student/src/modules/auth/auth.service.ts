@@ -49,6 +49,10 @@ export async function registerUser(input: RegisterInput) {
     throw HttpError.conflict('An account with this email already exists')
   }
 
+  if (!input.email.endsWith('@college.edu')) {
+    throw HttpError.badRequest('Only @college.edu emails are allowed.')
+  }
+
   // Create user in Supabase Auth
   const { data: authData, error: authError } = await supabase.auth.admin.createUser({
     email: input.email,
@@ -175,10 +179,11 @@ export async function requestReset(input: PasswordResetRequestInput): Promise<vo
     { profiles, authTokens },
     { eq },
     async (email, token) => {
+      console.log(`<<<<<<<< RESET TOKEN FOR ${email}: ${token} >>>>>>>>`)
       await emailDriver.send({
         to: email,
         subject: 'Reset your password',
-        text: `Click this link to reset your password: ${frontendUrl}/reset-password?token=${token}.\n\nIf you did not request this, ignore this email.`,
+        text: `Click this link to reset your password: ${frontendUrl}/reset-password?token=${token}\n\nIf you did not request this, ignore this email.`,
       })
     },
   )
@@ -192,7 +197,8 @@ export async function confirmReset(input: PasswordResetInput): Promise<void> {
   const supabase = getSupabaseAdmin()
   try {
     await resetPassword(input.token, input.newPassword, db, { authTokens }, { eq, and }, supabase)
-  } catch {
+  } catch (err) {
+    console.error('Password reset failed:', err)
     // Map internal error strings to an HttpError so the controller stays clean.
     throw HttpError.badRequest('Invalid or expired reset token')
   }
